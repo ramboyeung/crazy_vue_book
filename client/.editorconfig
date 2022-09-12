@@ -1,0 +1,1 @@
+root = true[*]charset = utf-8indent_style = spaceindent_size = 2end_of_line = lfinsert_final_newline = truetrim_trailing_whitespace = true

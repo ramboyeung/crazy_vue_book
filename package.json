@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-server",
+  "version": "1.0.0",
+  "description": "a node.js server by myself",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "server": "nodemon server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "yanglongbo",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.4.0",
+    "nodemon": "^2.0.19",
+    "querystringify": "^2.2.0"
+  }
+}

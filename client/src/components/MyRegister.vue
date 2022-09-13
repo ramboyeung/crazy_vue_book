@@ -2,10 +2,10 @@
   <div class="register_wrap">
     <ul>
       <li>
-        <label for="username">用户名：</label><input id="username" type="text" v-model="user.username" />
+        <label for="username">&ensp;用户名&ensp;：</label><input id="username" type="text" v-model="user.username" />
       </li>
       <li>
-        <label for="password">密&ensp;码：</label><input id="password" type="password" v-model="user.password" />
+        <label for="password">&ensp;密&emsp;码&ensp;：</label><input id="password" type="password" v-model="user.password" />
       </li>
       <li>
         <label for="password">确认密码：</label><input id="password" type="password" v-model="user.password" />

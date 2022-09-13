@@ -52,7 +52,7 @@ export default {
 
 <style scoped lang="less">
 .active{
-  border-bottom:2px solid red;
+  border-bottom:5px solid red;
   padding-bottom:5px;
   color:#1a1a1a;
 }
@@ -62,6 +62,7 @@ export default {
   .title{
     padding:20px 0 0 20px;
     box-sizing: border-box;
+    font-size:24px;
     color:#999;
     .login_tab{
       margin-right:20px;

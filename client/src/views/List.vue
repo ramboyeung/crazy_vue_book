@@ -3,7 +3,10 @@
     <Header :backShow="true">列表页</Header>
     <div class="content">
       <div class="book_item_box">
-        <div class="add_btn"><span>图书清单</span><button class="btn" @click="add">新增书单</button></div>
+        <div class="add_btn">
+			<span>图书清单</span>
+			<button class="btn" @click="add">新增书单</button>
+		</div>
         <BookList :books="books" :showBtn="true"></BookList>
       </div>
     </div>
@@ -76,16 +79,8 @@ export default {
         font-weight: bold;
       }
       .btn{
+		width: 100px;
         margin-right: 8%;
-      }
-    }
-    .per_book_btn{
-      margin-top: 5px;
-      .btn:nth-child(1){
-        background: #e23a3a;
-      }
-      .btn:nth-child(2){
-        margin-left: 10px;
       }
     }
   }

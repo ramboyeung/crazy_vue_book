@@ -32,6 +32,9 @@ export default {
     &.router-link-active{
       color: red;
     }
+	span{
+		font-size: 14px;
+	}
   }
 }
 </style>

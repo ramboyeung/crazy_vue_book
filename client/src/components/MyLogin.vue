@@ -5,7 +5,7 @@
         <label for="username">用户名：</label><input id="username" type="text" v-model="user.username" />
       </li>
       <li>
-        <label for="password">密&ensp;码：</label><input id="password" type="password" v-model="user.password" />
+        <label for="password">密&emsp;码：</label><input id="password" type="password" v-model="user.password" />
       </li>
       <li>
         <button @click="goLogin" class="btn">登录</button>

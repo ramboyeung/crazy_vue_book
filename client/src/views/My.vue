@@ -130,6 +130,7 @@ export default {
       height: 30px;
       line-height: 30px;
       text-align: center;
+      font-size:14px;
       color: #fff;
       background: #295F96;
       position: absolute;
@@ -180,6 +181,12 @@ export default {
       li{
         align-self: center;
         color: #1a1a1a;
+        span:first-child{
+          font-size: 20px;//图标
+        }
+        span:last-child{
+          font-size: 14px;
+        }
       }
     }
   }
@@ -202,9 +209,11 @@ export default {
         }
         span:nth-child(1){
           margin-left: 20px;
+          font-size: 14px;
         }
         span:nth-child(2){
           margin-right: 20px;
+          font-size: 20px;//右箭头
         }
       }
     }

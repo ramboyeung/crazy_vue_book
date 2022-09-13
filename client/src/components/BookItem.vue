@@ -66,6 +66,7 @@ export default {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     text-indent:5px;
+					font-size: 12px;
                 }
                 .price{
                     font-size: 14px;

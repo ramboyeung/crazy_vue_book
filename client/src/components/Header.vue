@@ -38,6 +38,7 @@ export default {
   z-index: 100;
   span{
     font-weight: bold;
+	font-size: 18px;
   }
   i{
     position: absolute;

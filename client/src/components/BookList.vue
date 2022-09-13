@@ -128,6 +128,7 @@ export default {
                     display: -webkit-box;
                     -webkit-box-orient: vertical;
                     -webkit-line-clamp: 2;//文字最多显示2行
+					font-size:12px;
                 }
                 .tip_p{
                     display: flex;

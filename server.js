@@ -57,7 +57,7 @@ var app = http.createServer((req,res)=>{
 			if(!obj.username)return res.end(JSON.stringify({code:0,msg:"用户名不能为空!"}));
 			if(!obj.password)return res.end(JSON.stringify({code:0,msg:"密码不能为空!"}));
 			setTimeout(function(){
-				console.log(obj.toString());
+				// console.log(obj.toString());//cmd终端里如果打印出来的是对象toString()的样子，那么说明就是一个JS对象
 				read("./data/users.json",function (users){
 					users = users.filter(item=>item.username==obj.username);//filter找到了，就会返回数组形式，找不到则返回[]
 					if(users.length===0)return res.end(JSON.stringify({code:0,msg:"用户不存在"}));
@@ -119,17 +119,20 @@ var app = http.createServer((req,res)=>{
 	// 		return res.end(JSON.stringify(collectedBooks));
 	// 	})
 	// }
-	let id = query.id;
+	let id = Number(query.id);//前端传递的参数解析出来是数字字符串，需要先转成数字
+	console.log(id);
+	// console.log(typeof id);
 	if(pathname=="/books"){
 		switch(req.method){
 			case("GET")://查
-				if(!isNaN(id)){//查单个
+				if(id){//查单个
+					console.log(1111)
 					read("./data/books.json",function (books){
 						// console.log(books);
 						let book = books.find(item=>item.bookId==id);//数组find方法返回的是符合条件的项内容，没找到则返回undefined
 						if(!book)book = {};
 						res.setHeader("Content-Type","application/json;charset=utf8");
-						res.end(JSON.stringify(books));
+						res.end(JSON.stringify(book));//返给前端对应id的那本书
 					})
 				}else{//查全部
 					read("./data/books.json",function (books){
@@ -155,7 +158,7 @@ var app = http.createServer((req,res)=>{
 			}
 			break;
 			case("PUT")://改
-				if(id){
+				if(isNaN(id)){
 					//先用字符串拼接req.on里边的data,在req.end里边拿到内存里的需要更新的那个数据，再用原数据比对找到那个需要更新的替换掉，最后重新全部写入文件里
 					let str = "";
 					req.on("data",chunk=>{str+=chunk});
@@ -168,17 +171,27 @@ var app = http.createServer((req,res)=>{
 							})
 						});
 					})
+				}else{
+					res.setHeader("Content-Type","application/json;charset=utf8");
+					res.end(JSON.stringify({msg:"传递的参数有误"}));
 				}
 			break;
 			case("DELETE")://删
-			if(id){
-				read(function (books){
-					books = books.filter(item=>item.bookId!==id);//过滤掉和要删的那个id不相等的，就是删除操作
-					write("./data/books.json",books,()=>{
-						res.end(JSON.stringify({}));//返回给前端一个空对象，说明删除成功了！
+				if(isNaN(id)){
+					res.setHeader("Content-Type","application/json;charset=utf8");
+					if(id==0||`${id}`.includes("."))return res.end(JSON.stringify({msg:"传递的参数有误"}));
+					res.setHeader("Content-Type","application/json;charset=utf8");
+					if(isNaN(id)||id==0||`${id}`.includes("."))return res.end(JSON.stringify({msg:"传递的参数有误"}));
+					read(function (books){
+						books = books.filter(item=>item.bookId!==id);//过滤掉和要删的那个id不相等的，就是删除操作
+						write("./data/books.json",books,()=>{
+							res.end(JSON.stringify({}));//返回给前端一个空对象，说明删除成功了！
+						})
 					})
-				})
-			}
+				}else{
+					res.setHeader("Content-Type","application/json;charset=utf8");
+					res.end(JSON.stringify({msg:"传递的参数有误"}));
+				}
 			break;
 		}
 		return;

@@ -3,9 +3,9 @@
     <Header>{{isLoginPage ? '登录' : '注册'}}</Header>
     <div class="content">
       <div class="logOrReg_box">
-        <h2>
-          <span @click="changeCom('MyLogin',true)" class="login_tab">登录</span>
-          <span @click="changeCom('MyRegister',false)" class="reg_tab">注册</span>
+        <h2 class="title">
+          <span @click="changeCom('MyLogin',true)" :class="isLoginPage?'login_tab active':'login_tab'">登录</span>
+          <span @click="changeCom('MyRegister',false)" :class="isLoginPage?'reg_tab':'reg_tab active'">注册</span>
         </h2>
         <keep-alive>
           <component :is="componentName"></component>
@@ -51,7 +51,21 @@ export default {
 </script>
 
 <style scoped lang="less">
+.active{
+  border-bottom:2px solid red;
+  padding-bottom:5px;
+  color:#1a1a1a;
+}
+
 .logOrReg_box{
   height: calc(100%-50px);
+  .title{
+    padding:20px 0 0 20px;
+    box-sizing: border-box;
+    color:#999;
+    .login_tab{
+      margin-right:20px;
+    }
+  }
 }
 </style>

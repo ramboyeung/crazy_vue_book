@@ -26,3 +26,6 @@ input::-webkit-input-speech-button {display: none}
 button,input,textarea{
 -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
+*{
+    touch-action: manipulation; /* 解决移动端300ms的click延迟 */
+}

@@ -126,7 +126,7 @@ export default {
     background: #449FFA;
     position: relative;
     .today_read{
-      width: 20%;
+      width: 22%;
       height: 30px;
       line-height: 30px;
       text-align: center;

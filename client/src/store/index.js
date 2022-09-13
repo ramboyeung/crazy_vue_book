@@ -10,7 +10,8 @@ export default new Vuex.Store({
   },
   getters: {
     // books: state => state.books,
-    hotBooks: state => state.books.filter(item => item.isHot)
+    hotBooks: state => state.books.filter(item => item.isHot),
+    collectedBooks: state => state.books.filter(item => item.collected),
   },
   mutations: {//必须同步，不能写异步代码----> vuex唯一改变数据的方式
     getBooks(state,payload){
@@ -19,6 +20,17 @@ export default new Vuex.Store({
     addBook(state,payload){
       state.books = [...state.books,payload]
     },
+    delBook(state,id){
+      let db = JSON.parse(JSON.stringify(state.books));//把books拷贝一份
+      state.books = db.filter(item=>item.id!==id);
+    },
+    updateBook(state,id,p2){
+      let db = JSON.parse(JSON.stringify(state.books));//把books拷贝一份
+      let obj = db.find(item=>item.id==id);
+      let ind = db.findIndex(item=>item.id==id);//找到了就返回索引，未找到就返回-1
+      db[ind] = {...obj,...p2};
+      state.books = db;
+    }
   },
   actions: {//可同步，也可异步，注意actions里commit提交载荷的两种写法
     async getBooksAction(context){//只获取，不修改，所以不需要第二个载荷参数
@@ -43,10 +55,19 @@ export default new Vuex.Store({
         getters   等同于store.$getters
       }
       */
-      console.log(arg);//注意传参的错误写法{commit,arg}会导致载荷arg为undefined
+      //console.log(arg);//注意传参的错误写法{commit,arg}会导致载荷arg为undefined
       await api.addBook(arg);
       commit("addBook",arg);
-    }
+    },
+    async delBookAction(context,payload){//只获取，不修改，所以不需要第二个载荷参数
+      //console.log(this);//this--->store，所以不能在这里边使用vue的实例
+      await api.deleteBook(payload);//后端先删
+      context.commit("delBook",payload);//然后前端再删
+    },
+    async updateBookAction(context,id,p2){//修改
+      await api.updateBook(id,p2);
+      context.commit("updateBook",id,p2);
+    },
   },
   // modules: { //没有放在mudules里的东西都是全局的，一旦放入就分块打包了--->主要解决数据臃肿，不好管理和维护的问题
   //   moduleA:{

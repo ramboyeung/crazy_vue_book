@@ -3,20 +3,14 @@
     <Header :backShow="true">我的收藏书单</Header>
     <div class="content">
       <div class="book_item_box">
-        <div class="add_btn">
-          <span>收藏清单</span>
-          <div><input type="checkbox" class="select_all" @click="selectAll" /><b>全选</b></div>
-          <button class="btn" @click="cancelAll">全部取消收藏</button>
+        <div class="title_btn">
+          <span class="collect_text">收藏清单</span>
+          <div class="right_ac">
+            <div class="select_all_box"><input type="checkbox" class="select_all" @click="selectAll" /><b>全选</b></div>
+            <button class="cancel_collect_all" @click="cancelAll">全部取消收藏</button>
+          </div> 
         </div>
-        <div v-for="item in books" :key="item.bookId">
-          <div><input type="checkbox" class="select_all" @click="selectAll" /><b>选择</b></div>
-          <BookItem :bookItem="item"  :wid="'93.333%'">
-            <!-- 插槽使用：决定是否显示收藏图标 -->
-            <div class="per_book_btn">
-              <button class="btn" @click.stop="cancelCollected(item.bookId)">取消收藏</button>
-            </div>
-          </BookItem>
-        </div>
+        <BookList :books="collectedBooks" :showCheckbox="true"></BookList>
       </div>
     </div>
   </div>
@@ -24,8 +18,8 @@
 
 <script>
 import Header from '@/components/Header.vue'
-import BookItem from '@/components/BookItem.vue'
-import { mapState } from "vuex"
+import BookList from '@/components/BookList.vue'
+import { mapGetters } from "vuex"
 
 export default {
   data(){
@@ -34,23 +28,23 @@ export default {
     }
   },
   computed:{
-    books(){
-      return this.$store.state.books.filter(item=>item.collected);
-    }
+    ...mapGetters([
+      'collectedBooks'
+    ])
   },
   components: {
     Header,
-    BookItem
+    BookList
   },
   created(){
-    // this.books = await this.$api.getBooks();
-    this.$store.dispatch("getBooksAction");
+    
   },
   methods:{
     cancelCollected(id){
       this.$router.push("/list");
     },
     cancelAll(){
+      console.log("已将选中的全部取消收藏")
       this.$router.push("/list");
     },
     selectAll(){
@@ -67,28 +61,49 @@ export default {
     flex-wrap: wrap;
     background: rgb(244, 247, 244);
     padding:0 0 10px;
-    .add_btn{
+    .title_btn{
       width: 100%;
       height: 50px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: #fff;
-      span{
-        margin-left: 25%;
+      .collect_text{//收藏清单字体样式
+        margin-left: 5%;
         color: #666;
-        font-size: 18px;
+        font-size:18px;
         font-weight: bold;
+        flex:1;
       }
-      .btn{
-        margin-right: 8%;
-      }
-    }
-    .per_book_btn{
-      margin-top: 5px;
-      .btn:nth-child(1){
-        width: 80px;//App.vue里默认是50,自行调整
-        background: #e23a3a;
+      .right_ac{//全选和全部取消收藏的盒子容器
+        display: flex;
+        justify-content: space-between;
+        flex:1;
+        margin-right: 5%;
+        .select_all_box{
+          // background:#09f;
+          display: flex;
+          align-items: center;
+          .select_all{//单选框样式
+            margin-right:5px;
+          }
+          b{//单选框文本样式
+            font-weight: normal;
+            font-size: 14px;
+          }
+        }
+        .cancel_collect_all{// 全部取消收藏按钮的样式 
+          width: 100px;
+          height:30px;
+          line-height:30px;
+          text-align: center;
+          outline: none;
+          border: none;
+          background:#e23a3a;
+          border-radius: 5px;
+          color: #fff;
+          font-size: 12px;
+        }
       }
     }
   }

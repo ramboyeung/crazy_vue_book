@@ -21,7 +21,7 @@
           <label for="bookPrice">&ensp;价&emsp;格&ensp;：</label><input id="bookPrice" type="text" v-model.number="book.bookPrice" />
         </li>
         <li>
-          <button @click="add" class="btn">{{buttonText}}</button>
+          <button @click="update($route.query.id,book)" class="btn">{{buttonText}}</button>
         </li>
       </ul>
     </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 export default {
   data(){
     return {
@@ -38,14 +39,40 @@ export default {
   props: {
     buttonText: {
       type: String,
-      default: "更改"
+      default: "更改" //如果父组件不传，则按钮提交文案默认就是：更改
+    }
+  },
+  computed:{
+    ...mapState({
+      books: (state) => state.books,
+    })
+  },
+  created(){
+    console.log(this.$route.query);
+    console.log(this.books);//created里直接this.$store.state.books获取不到值，为空数组啊，mounted里虽然能够拿到，但是数据长度不为0，但是页面还是用不了数据！！！
+    console.log(this.books.length);
+    let db = this.books.find(item=>item.bookId==this.$route.query.id);//拷贝一份，为了不让用户刷新时报错
+    this.book = {...db};//页面一加载就赋上值
+  },
+  watch: {
+    // 监听用户直接输入路由进行刷新
+    $route:{
+      handler(val,oldval){
+        // console.log(val);//新路由信息
+        // console.log(oldval);//老路由信息
+        // this.id = this.$route.query.id
+        //this.$router.go(0)//页面刷新
+      },
+      // 深度观察监听
+      // deep: true,
+      // immediate: true
     }
   },
   methods:{
-    add(){
-      // await this.$api.addBook(this.book);//新增请求
-      this.$store.dispatch("addBookAction",this.book);
-      this.$router.push("/list");
+    update(id,book){
+      // await this.$api.updateBook(id,book);//新增请求
+      this.$store.dispatch("updateBookAction",id,book);
+      this.$router.push("/list");//vuex里发异步请求后去把vuex里数据变更了，所以只需要跳转即可
     }
   }
 }
